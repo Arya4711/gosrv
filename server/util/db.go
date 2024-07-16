@@ -7,6 +7,12 @@ import (
 	"os"
 )
 
+type User struct {
+	id       int
+	username string
+	password string
+}
+
 func ConnectToDB() (db *sql.DB, e error) {
 	connStr := fmt.Sprintf("postgresql://%v:%v@%v/test?sslmode=disable",
 		os.Getenv("POSTGRES_USER"),
