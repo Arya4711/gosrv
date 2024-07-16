@@ -20,7 +20,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	for pattern, handler := range gosrv.Router {
+	for pattern, handler := range gosrv.Router(db) {
 		http.HandleFunc(pattern, handler)
 	}
 

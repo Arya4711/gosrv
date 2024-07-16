@@ -1,9 +1,12 @@
 package gosrv
 
-import "net/http"
+import (
+	"database/sql"
+	"net/http"
+)
 
-var Router = map[string]func(http.ResponseWriter, *http.Request){
-	"GET /": func(w http.ResponseWriter, req *http.Request) {
-		http.ServeFile(w, req, "src/test.html")
-	},
+func Router(db *sql.DB) map[string]func(http.ResponseWriter, *http.Request) {
+	return map[string]func(http.ResponseWriter, *http.Request){
+		"GET /": func(w http.ResponseWriter, req *http.Request) { http.ServeFile(w, req, "util/test.html") },
+	}
 }
