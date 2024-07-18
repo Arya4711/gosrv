@@ -2,12 +2,17 @@ import getUsers from "./_lib/getUsers";
 import { User } from "./_lib/models";
 
 export default async function Home() {
-  const response = await fetch("http://localhost:5050/users", {
-    method: "GET",
-  });
+  const users = await getUsers();
 
-  console.log(response);
-  console.log(await response.json());
-
-  return <div></div>;
+  return (
+    <>
+      <ul>
+        {users.map((user: User) => (
+          <li key={user.id}>
+            id: {user.id} username: {user.username} password: {user.password}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
 }
