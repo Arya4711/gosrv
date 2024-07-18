@@ -24,5 +24,9 @@ func main() {
 		http.HandleFunc(pattern, handler)
 	}
 
-	log.Fatalln(http.ListenAndServe(fmt.Sprintf(":%v", os.Getenv("PORT")), nil))
+	log.Printf("listening on port %v\n", os.Getenv("PORT"))
+	err = http.ListenAndServe(fmt.Sprintf(":%v", os.Getenv("PORT")), nil)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
