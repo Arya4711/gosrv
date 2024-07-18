@@ -8,9 +8,9 @@ import (
 )
 
 type User struct {
-	id       int
-	username string
-	password string
+	Id       int    `json:"id"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 func ConnectToDB() (db *sql.DB, e error) {

@@ -12,21 +12,28 @@ func Router(db *sql.DB) map[string]func(http.ResponseWriter, *http.Request) {
 	return map[string]func(http.ResponseWriter, *http.Request){
 		"GET /users": func(w http.ResponseWriter, req *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
-			var res User
-			var users []User
 			rows, err := db.Query("SELECT * FROM users")
 			defer rows.Close()
 			if err != nil {
 				log.Fatalln(err)
-				fmt.Fprintln(w, "an error occurred")
+				w.WriteHeader(http.StatusInternalServerError)
+				fmt.Fprintln(w, "failed to query database")
 			}
 
+			var user User
+			var users []User
 			for rows.Next() {
-				rows.Scan(&res)
-				users = append(users, res)
+				if err := rows.Scan(&user.Id, &user.Username, &user.Password); err != nil {
+					log.Fatalln(err)
+					w.WriteHeader(http.StatusInternalServerError)
+					fmt.Fprintln(w, "failed to scan")
+				}
+				users = append(users, user)
 			}
 
-			json.NewEncoder(w).Encode(users)
+			if err = json.NewEncoder(w).Encode(users); err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+			}
 		},
 	}
 }
