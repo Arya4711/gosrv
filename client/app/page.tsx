@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import { addUser, deleteUser, getUsers } from "./_lib/users";
 import { User } from "./_lib/models";
 

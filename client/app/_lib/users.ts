@@ -1,7 +1,8 @@
 "use server";
 import { User } from "./models";
 
-export async function getUser(username: string) {
+export async function getUser(formData: FormData) {
+  const username = formData.get("username") as string;
   const response = await fetch(`http://localhost:5050/users/${username}`, {
     method: "GET",
   });
