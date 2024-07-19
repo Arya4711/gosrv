@@ -17,7 +17,7 @@ func ConnectToDB() (db *sql.DB, e error) {
 	connStr := fmt.Sprintf("postgresql://%v:%v@%v/test?sslmode=disable",
 		os.Getenv("POSTGRES_USER"),
 		os.Getenv("POSTGRES_PASSWORD"),
-		fmt.Sprintf("%v:%v", os.Getenv("POSTGRES_HOSTNAME"), os.Getenv("POSTGRES_PORT")),
+		fmt.Sprintf("%v:%v", os.Getenv("POSTGRES_HOSTNAME"), "5432"),
 	)
 
 	db, err := sql.Open("postgres", connStr)
