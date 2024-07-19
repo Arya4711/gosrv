@@ -1,13 +1,12 @@
 import { useRouter } from "next/navigation";
-import addUser from "./_lib/addUser";
-import getUsers from "./_lib/getUsers";
+import { addUser, deleteUser, getUsers } from "./_lib/users";
 import { User } from "./_lib/models";
 
 export default async function Home() {
   const users = await getUsers();
 
   return (
-    <>
+    <div className="m-5 space-y-5">
       <ul>
         {users
           ? users.map((user: User) => (
@@ -19,8 +18,9 @@ export default async function Home() {
           : "no users found"}
       </ul>
       <form action={addUser}>
+        <h1 className="text-xl">add user</h1>
         <label htmlFor="username" className="block">
-          Username
+          username
         </label>
         <input
           id="username"
@@ -29,7 +29,7 @@ export default async function Home() {
           required
         />
         <label htmlFor="password" className="block">
-          Password
+          password
         </label>
         <input
           id="password"
@@ -38,9 +38,24 @@ export default async function Home() {
           required
         />
         <button type="submit" className="block border">
-          Submit
+          submit
         </button>
       </form>
-    </>
+      <form action={deleteUser}>
+        <h1 className="text-xl">delete user</h1>
+        <label htmlFor="username" className="block">
+          username
+        </label>
+        <input
+          id="username"
+          name="username"
+          className="dark:text-black"
+          required
+        />
+        <button type="submit" className="block border">
+          submit
+        </button>
+      </form>
+    </div>
   );
 }
