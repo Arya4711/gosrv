@@ -35,5 +35,19 @@ func Router(db *sql.DB) map[string]func(http.ResponseWriter, *http.Request) {
 				w.WriteHeader(http.StatusInternalServerError)
 			}
 		},
+		"POST /users": func(w http.ResponseWriter, req *http.Request) {
+			var user User
+			if err := json.NewDecoder(req.Body).Decode(&user); err != nil {
+				log.Fatalln(err)
+				w.WriteHeader(http.StatusInternalServerError)
+				fmt.Fprintln(w, "failed to read body")
+			}
+
+			if _, err := db.Exec(fmt.Sprintf("INSERT INTO users (username, password) VALUES ('%v', '%v')", user.Username, user.Password)); err != nil {
+				log.Fatalln(err)
+				w.WriteHeader(http.StatusInternalServerError)
+				fmt.Fprintln(w, "failed to insert user")
+			}
+		},
 	}
 }
